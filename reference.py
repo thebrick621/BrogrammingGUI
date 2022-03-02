@@ -7,10 +7,13 @@ pygame.font.init()
 # Sets the size of the window being drawn
 display_height = 1280
 display_width = 720
-screen = pygame.display.set_mode((display_height, display_width))
 
 # Generic Variables Establishment
 clock = pygame.time.Clock()
+screen = pygame.display.set_mode((display_height, display_width))
+smallText = pygame.font.SysFont('Roboto.ttf', 20) # Font & size def.
+mediumText = pygame.font.SysFont('Roboto.ttf', 35) # Font & size def.
+largeText = pygame.font.SysFont('Roboto.ttf', 55)
 
 # Image Loading Index
 icon = pygame.image.load('icon.png')
@@ -42,7 +45,6 @@ def text_objects(text, font):
 
 # Makes a Generic block of text; func. should be edited to include more params though
 def message_display(text):
-    largeText = pygame.font.SysFont('Roboto.ttf', 55)
     TextSurf, TextRect = text_objects(text, largeText)
     TextRect.center = ((display_height/2), (display_width/2))
     screen.blit(TextSurf, TextRect)
@@ -65,7 +67,6 @@ def button(msg,x,y,w,h,inactive,active,action=None):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
-
     if x+w > mouse[0] > x and y+h > mouse[1] > y: # If xPOS plus height is greater than mouse X &
                                             # If yPOS plus width is greater than mouse Y then you are hovering over rect.
         draw_rect(x,y,w,h, active)
@@ -74,9 +75,8 @@ def button(msg,x,y,w,h,inactive,active,action=None):
     else:
         draw_rect(x,y,w,h, inactive)
 
-    smallText = pygame.font.SysFont('Roboto.ttf', 20) # Font & size def.
     textSurf, textRect = text_objects(msg, smallText) # What we want it to say & assigning values
-    textRect.center = ((x+(w/2), (y+(h/2)))) # Find the center by adding X plus width/2 same w/ Y value but w/ height
+    textRect.center = ((x+(w/2), (y+(h/2)))) # Find the center of the button by adding X plus width/2 same w/ Y value but w/ height
     screen.blit(textSurf, textRect) # Draws our Text
 
 # Intro For Game
