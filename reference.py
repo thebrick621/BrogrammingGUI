@@ -40,6 +40,7 @@ def text_objects(text, font):
     textSurface = font.render(text, True, yellow)
     return textSurface, textSurface.get_rect()
 
+# Makes a Generic block of text; func. should be edited to include more params though
 def message_display(text):
     largeText = pygame.font.SysFont('Roboto.ttf', 55)
     TextSurf, TextRect = text_objects(text, largeText)
@@ -50,6 +51,33 @@ def message_display(text):
 # Load Character Img
 def player(x,y):
     screen.blit(charsprite, (x,y))
+
+
+# Quit game function
+def quit_game():
+    pygame.quit()
+    quit()
+
+# Button Function   msg is a str; x&y of button origin, width&height of box, button colors, & function to run when clicked
+def button(msg,x,y,w,h,inactive,active,action=None):
+
+    # Finds the mouse position and tracks it as a constant
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y: # If xPOS plus height is greater than mouse X &
+                                            # If yPOS plus width is greater than mouse Y then you are hovering over rect.
+        draw_rect(x,y,w,h, active)
+        if click[0] == 1 and action != None: # If mouse is clicked and 'action' parameter not blank then do action on mouse click
+            action() # Does whatever our action parameter is so long as its a function!
+    else:
+        draw_rect(x,y,w,h, inactive)
+
+    smallText = pygame.font.SysFont('Roboto.ttf', 20) # Font & size def.
+    textSurf, textRect = text_objects(msg, smallText) # What we want it to say & assigning values
+    textRect.center = ((x+(w/2), (y+(h/2)))) # Find the center by adding X plus width/2 same w/ Y value but w/ height
+    screen.blit(textSurf, textRect) # Draws our Text
 
 # Intro For Game
 def game_intro():
@@ -67,21 +95,8 @@ def game_intro():
         message_display("When your pizza rolls are done.")
 
         # Mouse getpos needs to be in loop to constantly refresh
-        mouse = pygame.mouse.get_pos()
-
-        # If xPOS plus height is greater than mouse X &
-        # If yPOS plus width is greater than mouse Y then you are hovering over rect.
-
-        if 350+100 > mouse[0] > 350 and 450+50 > mouse[1] > 450: # If xPOS plus height is greater than mouse X &
-                                            # If yPOS plus width is greater than mouse Y then you are hovering over rect.
-            draw_rect(350,450,100,50, blue)
-        else:
-            draw_rect(350,450,100,50, red)
-        
-        if 850+100 > mouse[0] > 850 and 450+50 > mouse[1] > 450:
-            draw_rect(850,450,100,50, blue)
-        else:
-            draw_rect(850,450,100,50, green)
+        button('GOMEGGIES', 350, 450, 100, 50, red, blue, game_loop)
+        button('Whomegalul?', 850, 450, 100, 50, red, blue, quit_game)
 
         # Updates Screen & Sets Framerate
         pygame.display.update()
@@ -98,13 +113,17 @@ def game_loop():
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                quit_game()
 
             # If Key gets pressed, do thing
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     draw_rect(600, 370, 100, 100, black)
                     message_display("TEST")
+
+                # If 'P' is pressed, exec pause screen func
+                if event.key == pygame.K_p:
+                    pause_screen()
 
         # Fills the Screen W/ color
         screen.fill(white)
@@ -116,6 +135,24 @@ def game_loop():
         
 
         # Updates Screen & Sets Framerate
+        pygame.display.update()
+        clock.tick(60)
+
+# Pause Screen
+def pause_screen():
+    pause = True
+    
+    while pause:
+        for event in pygame.event.get():
+
+            # Generic Quit func.
+            if event.type == pygame.QUIT:
+                quit_game()
+
+        screen.fill(red)
+        button('GOMEGGIES', 350, 450, 100, 50, red, blue, game_loop)
+        button('Whomegalul?', 850, 450, 100, 50, red, blue, quit_game)
+
         pygame.display.update()
         clock.tick(60)
 
