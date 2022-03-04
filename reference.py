@@ -15,6 +15,7 @@ smallText = pygame.font.SysFont('Roboto.ttf', 20) # Font & size def.
 mediumText = pygame.font.SysFont('Roboto.ttf', 35) # Font & size def.
 largeText = pygame.font.SysFont('Roboto.ttf', 55)
 
+
 # Image Loading Index
 icon = pygame.image.load('icon.png')
 bedroom_back = pygame.image.load('bedroom_background.png')
@@ -37,6 +38,9 @@ pygame.display.set_icon(icon)
 def draw_rect(x, y, w, h, color):
     pygame.draw.rect(screen, color, [x, y, w, h])
 
+# YOU CAN ALSO ADD BORDERWIDTH! add ,2 to your rect to ONLY render border!
+def draw_border(x, y, w, h, color, border):
+    pygame.draw.rect(screen, color, [x, y, w, h], border)
 
 # Places a block of text on the screen in a rect.
 def text_objects(text, font):
@@ -108,7 +112,9 @@ def game_loop():
     player_xloc = (35)
     player_yloc = (100)
     running = True
-
+    usertext_input = '' # Used to allow usr input as str
+    textborder = pygame.Rect(600,370,500,100) # Used for positioning of input txt box; not sure why, but only works this way
+    box_selected = False # Bool to tell if usr input box is active
 
     while running:
         for event in pygame.event.get():
@@ -125,6 +131,26 @@ def game_loop():
                 if event.key == pygame.K_p:
                     pause_screen()
 
+                # Input text box
+                if box_selected == True: # Checks if selection bool is active or inactive
+                    if event.key == pygame.K_BACKSPACE: # Delete last char in str
+                        usertext_input = usertext_input[0:-1] # Use indexing to delete only 1 char
+                    
+                    elif event.key == pygame.K_RETURN: # Does action when enter is pressed
+                        print('Yo Pier you gon come out here?')
+
+                    else:
+                        usertext_input += event.unicode # Captures User text and puts it in temp str var
+
+            # If mos pos collides w/ input txt box pos then do thing
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if textborder.collidepoint(event.pos): #If collide, then change bool & make box active 
+                    box_selected = True
+                else:
+                    box_selected = False # Returns to inactive state
+
+                
+
         # Fills the Screen W/ color
         screen.fill(white)
         screen.blit(bedroom_back, (0,0))
@@ -132,7 +158,14 @@ def game_loop():
         # Places Player Sprite on screen
         player(player_xloc,player_yloc)
 
-        
+        # Renders our text up to the surface
+        usertext_surface = mediumText.render(usertext_input,True,white) # Options for rending actual Text str
+        screen.blit(usertext_surface, (0,0)) # Blits our text; can edit coords to be text box w/ draw_rec
+
+        # References an established rectangle var; '2' Shows only the border & Draws our Shape;
+        pygame.draw.rect(screen,white,textborder,2)
+        # Blits our text into our TextBorder, +5 makes it look pretty
+        screen.blit(usertext_surface, (textborder.x + 5, textborder.y + 5))
 
         # Updates Screen & Sets Framerate
         pygame.display.update()
