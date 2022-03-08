@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cherrytree>
+  <bookmarks list=""/>
+  <node name="MAIN" unique_id="2" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="1" foreground="" ts_creation="1646671700" ts_lastsave="1646671713"/>
+  <node name="ITEMS" unique_id="3" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="1" foreground="" ts_creation="1646671713" ts_lastsave="1646673027"/>
+  <node name="MECHANICS" unique_id="8" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="1" foreground="" ts_creation="1646673027" ts_lastsave="1646677487">
+    <node name="Commands" unique_id="11" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="1646677490" ts_lastsave="1646679278">
+      <rich_text>Original Commands: # Basically the commands that you will have access to most of the time when out of combat
+	</rich_text>
+      <rich_text weight="heavy">help</rich_text>
+      <rich_text>:
+		Displays the help menu, will list all available commands as well as which ones you've already tried unsuccessfully.
+	</rich_text>
+      <rich_text weight="heavy">look</rich_text>
+      <rich_text>:
+		Lets you look around the current room you're in to find clues, get information about the area or context on a situation
+	</rich_text>
+      <rich_text weight="heavy">inspect</rich_text>
+      <rich_text>:
+		Similar to look, mostly used when looking at more specific objects or smaller areas, ie. inspect poster or inspect key
+	</rich_text>
+      <rich_text weight="heavy">use</rich_text>
+      <rich_text>:
+		Has to be use w/ context, usually meant for using items on either other items or in a situation. ie. use key on door or use key door
+	</rich_text>
+      <rich_text weight="heavy">talk</rich_text>
+      <rich_text>:
+		Used to speak with chars &amp; enemies. Mostly used for engaging battle or refreshing a character dialogue to remind the player
+	</rich_text>
+      <rich_text weight="heavy">move</rich_text>
+      <rich_text>:
+		Used to walk around, change rooms or move to different area in overworld
+	</rich_text>
+      <rich_text weight="heavy">inventory</rich_text>
+      <rich_text>:	
+		Displays the user's inventory menu
+	</rich_text>
+      <rich_text weight="heavy">save</rich_text>
+      <rich_text>:
+		Saves your game to savefile
+	</rich_text>
+      <rich_text weight="heavy">quit</rich_text>
+      <rich_text>:
+		prompts the user multiple times before quitting the game w/out saving. Asks if the player would like to save before quitting
+
+
+
+Inventory Commands: # Commands used within the inventory context menu
+	</rich_text>
+      <rich_text weight="heavy">select</rich_text>
+      <rich_text>: 
+		Used to select the correct item that you would like to interact w/ thats in your inv.
+	</rich_text>
+      <rich_text weight="heavy">equip</rich_text>
+      <rich_text>:
+		Equips selected item to appropriate slot. Slot has to be manually selected. ie. equip w1 for weapon slot or equip head for head armor
+	</rich_text>
+      <rich_text weight="heavy">drop</rich_text>
+      <rich_text>:
+		Drops whatever item that is selected. User is prompted if they're sure and informs them that this will permanently remove the item.
+	</rich_text>
+      <rich_text weight="heavy">info</rich_text>
+      <rich_text>:
+		Gives you the description of whatever item you currently have selected
+	</rich_text>
+      <rich_text weight="heavy">exit</rich_text>
+      <rich_text>:
+		Exits the inventory context menu.
+	
+	
+		
+Battle/Combat Comands: # Commands presented when in combat.
+	</rich_text>
+      <rich_text weight="heavy">flee</rich_text>
+      <rich_text>:
+		run away from the battle. Doesn't work 100% of the time.
+	</rich_text>
+    </node>
+  </node>
+  <node name="ENEMIES" unique_id="4" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="1" foreground="" ts_creation="1646671720" ts_lastsave="1646673058">
+    <node name="ComputerBug" unique_id="9" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="1646673078" ts_lastsave="1646673606">
+      <rich_text># Computer bug is a basic enemy, found in the combat tutorial and is the most basic form of enemy. Low health, low attack, low reward.
+
+Health: 20
+
+Attacks:
+	Infect:
+		Infects your system, makes it not function properly for the next turn. Some options are randomly greyed out for user when trying to battle.
+	Bite:
+		Generic attack damange. Deals between 5-10 dmg, val gets randomly selected on attack. 
+	Dance:
+		Stuns the user, adds new option on user's terminal to dance w/ bug. The user is still succeptible to attacks from other enemies but will befriend the dancing bug and no longer receive attacks. If this option is selected then the bug will drop higher-teir rewards after 3 turns and flee the battle.
+		
+		
+Loot:
+	Tok(ens):
+		Drops anywhere between 3 and 10 coins a piece. (Always Drop)
+	Code_Block:
+		A collectable-craftable object; used to redeem for new actions/attacks. (Uncommon Drop; 1/24 chance; only drops 1 per bug)</rich_text>
+    </node>
+  </node>
+  <node name="CHARS" unique_id="5" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="1" foreground="" ts_creation="1646671729" ts_lastsave="1646673919">
+    <node name="Player" unique_id="10" prog_lang="custom-colors" tags="" readonly="0" nosearch_me="0" nosearch_ch="0" custom_icon_id="0" is_bold="0" foreground="" ts_creation="1646673919" ts_lastsave="1646677458">
+      <rich_text># This is our player. The main playable user in the game. Will have custom name that is defined on Save file creation.
+# You wake up @ your computer desk and without realizing fell asleep with your new Digi-Real Mixed Reality headset on...again.
+# Even though you just bought the headset you have descended into the digital world, finding the combonation of computer graphics and reality to be the
+# most appealing thing you can do with your otherwise boring life. This is the first time you've fallen asleep with the headset on though. 
+# Unbeknownst to you, or the general public, Zark McMuckies the company's founder and CEO has programmed these headsets to trap its users in this
+# new altered reality that he has full control of. You awake missing almost all your memories, starting as User 0 in McMuckies' master plan, or so you think.
+# This reality is fully controlled by McMuckies and as a part of the new zombie_user protocol all memories are selectively altered. In reality, you have been
+# living as the one of the last people in base reality, refusing to adopt this new parasytic technology. You are a part of a squad of ethical hackers, the 
+# Brogramming team. Over the course of your journey you slowly realize through carefully placed clues from the rest of the Brogramming squad in base
+# reality who you are and what your purpose in McMuckies' game is. The ultimate goal, take down McMuckies' servers and realease the rest of the world
+# from this altered reality controlled by an evil half-lizard mechanical ‘man’.
+
+Base Health: 50; can be raised via special stat altering items or slowly through leveling up.
+
+
+	</rich_text>
+    </node>
+  </node>
+</cherrytree>
