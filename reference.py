@@ -158,7 +158,7 @@ def game_loop():
         # Places Player Sprite on screen
         player(player_xloc,player_yloc)
 
-        # Renders our text up to the surface
+        # Renders our text from users input
         usertext_surface = mediumText.render(usertext_input,True,white) # Options for rending actual Text str
         screen.blit(usertext_surface, (0,0)) # Blits our text; can edit coords to be text box w/ draw_rec
 

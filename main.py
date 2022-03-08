@@ -11,9 +11,14 @@ display_width = 720
 # Generic Variables Establishment
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((display_height, display_width))
+
+# Font & Text vars
 smallText = pygame.font.SysFont('Roboto.ttf', 20) # Font & size def.
 mediumText = pygame.font.SysFont('Roboto.ttf', 35) # Font & size def.
 largeText = pygame.font.SysFont('Roboto.ttf', 50)
+largebloxText = pygame.font.Font('Blox2.ttf', 50)
+mediumstitchText = pygame.font.Font('StitchWarrior.ttf', 35)
+largestitchText = pygame.font.Font('StitchWarrior.ttf', 50)
 
 # Image Loading Index
 icon = pygame.image.load('icon.png')
@@ -38,6 +43,7 @@ blue = (0,0,255)
 light_blue = (0,102,255)
 magenta = (255,0,255)
 yellow = (255,255,0)
+dark_grey = (78,78,78)
 
 # Title & Icon Data
 pygame.display.set_caption("Brogramming")
@@ -87,7 +93,7 @@ def start_button(msg,x,y,w,h,inactive,active,action=None):
         draw_rect(x,y,w,h, inactive)
         screen.blit(smenu_button, (x-30,y-75)) 
 
-    textSurf, textRect = text_objects(msg, largeText, white) # What we want it to say & assigning values
+    textSurf, textRect = text_objects(msg, largeText, dark_grey) # What we want it to say & assigning values
     textRect.center = ((x+(w/2), (y+(h/2)))) # Find the center by adding X plus width/2 same w/ Y value but w/ height
     screen.blit(textSurf, textRect) # Draws our Text
 
@@ -97,6 +103,9 @@ def player(x,y):
 
 def game_intro():
     intro = True
+    usertext_input = ''
+    inputbox = pygame.Rect(675,500, 600,140) #POS of input box
+    box_selected = False
 
 
     while intro:
@@ -105,6 +114,27 @@ def game_intro():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit_game()
+
+
+            if event.type == pygame.KEYDOWN:
+
+                if box_selected == True:
+                    if event.key == pygame.K_BACKSPACE:
+                        usertext_input = usertext_input[:-1]
+                    
+                    # BIGGGGG Elif to link to commands from here incl. cheats & EEs
+                    elif event.key == pygame.K_RETURN:
+                        print('temp')
+
+                    else:
+                        usertext_input += event.unicode
+
+            # Allows us to select & Deselect text box; maybe can make this a function?
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if inputbox.collidepoint(event.pos):
+                    box_selected = True
+                else:
+                    box_selected = False
 
         # Dispalys Background pic
         screen.blit(bedroom_back, (0,0))
@@ -117,6 +147,13 @@ def game_intro():
         start_button('Quit', 100, 540, 200, 55, blue, light_blue, quit_game)
         screen.blit(titleimg, (400,50))
         
+        usertext_surface = largestitchText.render(usertext_input,True,light_green)
+        default_cmdline = mediumstitchText.render('PASSWORD?',True,green)
+        pygame.draw.rect(screen,black,inputbox)
+        screen.blit(default_cmdline, (inputbox.x + 5, inputbox.y + 5))
+        screen.blit(usertext_surface, (inputbox.x + 5, inputbox.y + 45))
+
+
         # Updates Screen & Sets Framerate
         pygame.display.update()
         clock.tick(60)
