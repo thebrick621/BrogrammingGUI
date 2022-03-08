@@ -25,6 +25,7 @@ charsprite = pygame.image.load('char_sprite.png')
 black = (0,0,0)
 white = (255,255,255)
 green = (0,255,0)
+light_green = (0,255,0)
 red = (255,0,0)
 blue = (0,0,255)
 magenta = (255,0,255)
@@ -44,7 +45,7 @@ def draw_border(x, y, w, h, color, border):
 
 # Places a block of text on the screen in a rect.
 def text_objects(text, font):
-    textSurface = font.render(text, True, yellow)
+    textSurface = font.render(text, True, white)
     return textSurface, textSurface.get_rect()
 
 # Makes a Generic block of text; func. should be edited to include more params though
@@ -87,7 +88,6 @@ def button(msg,x,y,w,h,inactive,active,action=None):
 def game_intro():
     intro = True
 
-
     while intro:
 
         # For loop is for any EVENTS
@@ -115,6 +115,8 @@ def game_loop():
     usertext_input = '' # Used to allow usr input as str
     textborder = pygame.Rect(600,370,500,100) # Used for positioning of input txt box; not sure why, but only works this way
     box_selected = False # Bool to tell if usr input box is active
+    flashcount = 0
+    flashcolors = [black,light_green]
 
     while running:
         for event in pygame.event.get():
@@ -154,12 +156,13 @@ def game_loop():
         # Fills the Screen W/ color
         screen.fill(white)
         screen.blit(bedroom_back, (0,0))
+        flashcount += 1
 
         # Places Player Sprite on screen
         player(player_xloc,player_yloc)
 
         # Renders our text from users input
-        usertext_surface = mediumText.render(usertext_input,True,white) # Options for rending actual Text str
+        usertext_surface = mediumText.render(usertext_input,True,flashcolors[(flashcount%2)]) # Options for rending actual Text str
         screen.blit(usertext_surface, (0,0)) # Blits our text; can edit coords to be text box w/ draw_rec
 
         # References an established rectangle var; '2' Shows only the border & Draws our Shape;

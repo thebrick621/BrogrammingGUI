@@ -19,6 +19,7 @@ largeText = pygame.font.SysFont('Roboto.ttf', 50)
 largebloxText = pygame.font.Font('Blox2.ttf', 50)
 mediumstitchText = pygame.font.Font('StitchWarrior.ttf', 35)
 largestitchText = pygame.font.Font('StitchWarrior.ttf', 50)
+hugestitchText = pygame.font.Font('StitchWarrior.ttf', 75)
 
 # Image Loading Index
 icon = pygame.image.load('icon.png')
@@ -39,11 +40,15 @@ green = (0,189,0)
 light_green = (0,255,0)
 red = (255,0,0)
 light_red = (233,85,85)
-blue = (0,0,255)
+blue = (0,50,255)
 light_blue = (0,102,255)
+light_pink = (255,0,221)
 magenta = (255,0,255)
 yellow = (255,255,0)
+light_yellow = (255,228,138)
 dark_grey = (78,78,78)
+
+
 
 # Title & Icon Data
 pygame.display.set_caption("Brogramming")
@@ -104,10 +109,12 @@ def player(x,y):
 def game_intro():
     intro = True
     usertext_input = ''
-    inputbox = pygame.Rect(675,500, 600,140) #POS of input box
+    inputbox = pygame.Rect(350,100, 600,400) #POS of input box
     box_selected = False
-
-
+    flashcount = 0
+    flashcolors = [black,light_green]
+    flashcolors2 = [black,green]
+    inputmargins = (inputbox.x + 90, inputbox.y + 150)
     while intro:
 
         # For loop is for any EVENTS
@@ -119,13 +126,81 @@ def game_intro():
             if event.type == pygame.KEYDOWN:
 
                 if box_selected == True:
+
                     if event.key == pygame.K_BACKSPACE:
+                        # Converts all input txt to lowercase for easier command struc
                         usertext_input = usertext_input[:-1]
                     
-                    # BIGGGGG Elif to link to commands from here incl. cheats & EEs
+                    # BIGGGGG Elif to link to commands from here incl. cheats & EEs as well as any other menu commands
                     elif event.key == pygame.K_RETURN:
-                        print('temp')
+                        usertext_input = usertext_input.lower()
 
+                        # Add if statements to do something if certain str is entered
+                        if 'info' in usertext_input or 'nfo' in usertext_input:
+                            screen.blit(mediumstitchText.render('Created by Preston Philbrick 2022',True, flashcolors[(flashcount%2)]),(inputmargins))
+                            pygame.display.update()
+                            time.sleep(2)
+
+                        elif 'quit' in usertext_input:
+                            screen.blit(mediumstitchText.render('Goodbye',True, flashcolors[1]),(inputmargins))
+                            pygame.display.update() 
+                            time.sleep(1)
+                            quit_game()
+
+
+                        elif 'redtext' in usertext_input or 'red text' in usertext_input:
+                            del usertext_input
+                            usertext_input = ''
+                            screen.blit(mediumstitchText.render('Updated',True, flashcolors[1]),(inputmargins))
+                            pygame.display.update()
+                            time.sleep(2)
+                            flashcolors = [black, light_red]
+                            flashcolors2 = [black, red]
+
+                        elif 'bluetext' in usertext_input or 'blue text' in usertext_input:
+                            del usertext_input
+                            usertext_input = ''
+                            screen.blit(largestitchText.render('Updated',True, flashcolors[1]),(inputmargins))
+                            pygame.display.update()
+                            time.sleep(2)
+                            flashcolors = [black, light_blue]
+                            flashcolors2 = [black, blue]
+
+                        elif 'pinktext' in usertext_input or 'pink text' in usertext_input:
+                            del usertext_input
+                            usertext_input = ''
+                            screen.blit(mediumstitchText.render('Updated',True, flashcolors[1]),(inputmargins))
+                            pygame.display.update()
+                            time.sleep(2)
+                            flashcolors = [black, light_pink]
+                            flashcolors2 = [black, magenta]
+
+                        elif 'yellowtext' in usertext_input or 'yellow text' in usertext_input:
+                            del usertext_input
+                            usertext_input = ''
+                            screen.blit(mediumstitchText.render('Updated',True, flashcolors[1]),(inputmargins))
+                            pygame.display.update()
+                            time.sleep(2)
+                            flashcolors = [black, light_yellow]
+                            flashcolors2 = [black, yellow]
+
+                        elif 'greentext' in usertext_input or 'green text' in usertext_input:
+                            del usertext_input
+                            usertext_input = ''
+                            screen.blit(mediumstitchText.render('Updated',True, flashcolors[1]),(inputmargins))
+                            pygame.display.update()
+                            time.sleep(2)
+                            flashcolors = [black, light_green]
+                            flashcolors2 = [black, green]
+
+                        # If input = dummystr then clear text
+                        del usertext_input
+                        usertext_input = ''
+
+                    # Sets max len of input in input box
+                    elif len(usertext_input) == 19:
+                        usertext_input = usertext_input[:-1]
+                    # Writes on the screen
                     else:
                         usertext_input += event.unicode
 
@@ -140,18 +215,22 @@ def game_intro():
         screen.blit(bedroom_back, (0,0))
 
         # Mouse getpos needs to be in loop to constantly refresh
-        start_button('Start Game', 100, 100, 200, 55, blue, light_blue, quit_game)
-        start_button('Load Game', 100, 210, 200, 55, blue, light_blue, quit_game)
-        start_button('Options', 100, 320, 200, 55, blue, light_blue, quit_game)
-        start_button('Credits', 100, 430, 200, 55, blue, light_blue, quit_game)
-        start_button('Quit', 100, 540, 200, 55, blue, light_blue, quit_game)
-        screen.blit(titleimg, (400,50))
+        start_button('Start Game', 50, 575, 200, 55, blue, light_blue, quit_game)
+        start_button('Load Game', 300, 575, 200, 55, blue, light_blue, quit_game)
+        start_button('Options', 550, 575, 200, 55, blue, light_blue, quit_game)
+        start_button('Credits', 800, 575, 200, 55, blue, light_blue, quit_game)
+        start_button('Quit', 1050, 575, 200, 55, blue, light_blue, quit_game)
+        #screen.blit(titleimg, (250,0))
+        flashcount += 1
         
-        usertext_surface = largestitchText.render(usertext_input,True,light_green)
-        default_cmdline = mediumstitchText.render('PASSWORD?',True,green)
+        # Blits the main input box and usr text
+        usertext_surface = largestitchText.render(usertext_input,True,flashcolors[(flashcount%2)])
+        titletext = hugestitchText.render('Brogramming',True,flashcolors2[(flashcount%2)])
+        default_cmdline = mediumstitchText.render('What would you like to do?',True,flashcolors2[(flashcount%2)])
         pygame.draw.rect(screen,black,inputbox)
-        screen.blit(default_cmdline, (inputbox.x + 5, inputbox.y + 5))
-        screen.blit(usertext_surface, (inputbox.x + 5, inputbox.y + 45))
+        screen.blit(titletext, (inputbox.x + 110, inputbox.y + 5))
+        screen.blit(default_cmdline, (inputbox.x + 5, inputbox.y + 105))
+        screen.blit(usertext_surface, (inputmargins))
 
 
         # Updates Screen & Sets Framerate
@@ -164,5 +243,5 @@ def quit_game():
     quit()
 
 
-# Main Script Stack
+# Main Event Stack
 game_intro()
