@@ -1,5 +1,27 @@
 import pygame
 import time
+import json
+
+
+# Python Dict used for Save Data that will later turn into JSON
+# Dictionary isnt ONLY data set that can be written to. But is one of the more expansive
+# For my purposes a Tuple may be the best option
+# savedata = {
+#     'Event1' : 'Action1',
+#     'Event2' : 'Action2',
+#     'Event3' : 'Action3'
+# }
+
+# With open allows interfacing w/ JSON code in python syntax
+# with open('testsave.txt', 'w') as testfile: # open txt file; if it doesn't exit make it ('w') testfile used to interact w/ JSON
+#     json.dump(savedata,testfile) # Dumps out savedata variable into the testfile var which is just our txt shorthand
+
+# Converts JSON data back into python dict; is essentially your save load function
+# with open('testsave.txt') as testfile:
+#     data = json.load(testfile)
+
+
+
 # Initializing Pygame Library
 pygame.init()
 pygame.font.init()
@@ -84,6 +106,24 @@ def button(msg,x,y,w,h,inactive,active,action=None):
     textRect.center = ((x+(w/2), (y+(h/2)))) # Find the center of the button by adding X plus width/2 same w/ Y value but w/ height
     screen.blit(textSurf, textRect) # Draws our Text
 
+# Dictionary Containing Events & Bools to create accurate save file
+# Since we're using a Dictionary its automatically defined globally, meaning we can use it outside
+# any loops that may be created. We will probably have to load it as its own class or possibly file
+# to ensure true global access of saving
+
+data = {
+    'Event1' : False,
+    'Event2' : False,
+    'Event3' : False
+}
+# Tries to open our save file and override any values that we previously had;
+try:
+    with open('refsave.txt') as refsavefile:
+        data = json.load(refsavefile)
+except:
+    print('No file yet')
+
+
 # Intro For Game
 def game_intro():
     intro = True
@@ -120,18 +160,31 @@ def game_loop():
 
     while running:
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
+                # Saves our game on quitting of game automatically; pogchamp
+                with open('refsave.txt', 'w') as refsavefile:
+                    json.dump(data, refsavefile)
+
                 quit_game()
 
             # If Key gets pressed, do thing
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    draw_rect(600, 370, 100, 100, black)
-                    message_display("TEST")
+
+                    # Checks to see if our Bool is true in order to do event; testing our save
+                    if ('Event1', True) in data.items():
+                        draw_rect(600, 370, 100, 100, black)
+                        message_display("TEST")
+                        time.sleep(3)
 
                 # If 'P' is pressed, exec pause screen func
                 if event.key == pygame.K_p:
                     pause_screen()
+
+                if event.key == pygame.K_s:
+                    # Changes the value of our dictionary to signify a save
+                    data['Event1'] = True
 
                 # Input text box
                 if box_selected == True: # Checks if selection bool is active or inactive
