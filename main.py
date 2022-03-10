@@ -30,6 +30,8 @@ charsprite = pygame.image.load('char_sprite.png')
 menubuttonimg = pygame.image.load('startmenu_button.png')
 menubuttonimg2 = pygame.image.load('startmenu_buttonhi.png')
 titleimg = pygame.image.load('title.png')
+overlay = pygame.image.load('overlay.png')
+
 
 # Scales assets to fit interaction
 smenu_button = pygame.transform.scale(menubuttonimg, (265,223)) ### WHEN RESIZING X AND Y ARE FLIPPED!!!!####
@@ -64,6 +66,14 @@ savedata = {
     'Firstsave' : False
 }
 
+try:
+    with open('savenfo.txt') as savefile:
+        savedata = json.load(savefile)
+except:
+    print('No file yet')
+
+
+# WRITES OVER CURRENT SAVE DATA W/ savedata DICT and MAKES NEW FILE IF NOT PRESENT
 # Draw rectangles
 def draw_rect(x, y, w, h, color):
     pygame.draw.rect(screen, color, [x, y, w, h])
@@ -138,8 +148,7 @@ def delsave_confirm():
         # For loop is for any EVENTS
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                # Autosaves on quit
-                with open('mysavedata.txt', 'w') as savefile:
+                with open('savenfo.txt', 'w') as savefile:
                     json.dump(savedata, savefile)
                 quit_game()
 
@@ -159,9 +168,8 @@ def delsave_confirm():
                             start_game()
 
                         elif 'yes' in usertext_input or 'y' in usertext_input:
-                            savedata.clear()
-                            savedata['Firstave']=False
-                            with open('mysavedata.txt', 'w') as savefile:
+                            savedata['Firstsave'] = False
+                            with open('savenfo.txt', 'w') as savefile:
                                 json.dump(savedata, savefile)
                             screen.blit(mediumstitchText.render('Deleted',True, flashcolors[1]),(outputmargins))
                             pygame.display.update()
@@ -200,7 +208,7 @@ def delsave_confirm():
         screen.blit(titletext, (inputbox.x , inputbox.y + 5))
         screen.blit(default_cmdline, (inputbox.x + 5, inputbox.y + 105))
         screen.blit(usertext_surface, (inputmargins))
-
+        screen.blit(overlay, (0,0))
 
         # Updates Screen & Sets Framerate
         pygame.display.update()
@@ -212,9 +220,6 @@ def start_game():
     inputbox = pygame.Rect(350,100, 600,400) #POS of input box
     inputmargins = (inputbox.x + 5, inputbox.y + 150)
     outputmargins = (inputbox.x + 5, inputbox.y + 210)
-    with open('mysavedata.txt') as savefile:
-        savedata = json.load(savefile)
-
     # Gotta do it global to keep the color shift throughout the game *Sadge*
     global flashcount
     global flashcolors
@@ -225,8 +230,7 @@ def start_game():
         # For loop is for any EVENTS
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                # Autosaves on quit
-                with open('mysavedata.txt', 'w') as savefile:
+                with open('savenfo.txt', 'w') as savefile:
                     json.dump(savedata, savefile)
                 quit_game()
 
@@ -311,7 +315,7 @@ def start_game():
         screen.blit(titletext, (inputbox.x + 110, inputbox.y + 5))
         screen.blit(default_cmdline, (inputbox.x + 5, inputbox.y + 105))
         screen.blit(usertext_surface, (inputmargins))
-
+        screen.blit(overlay, (0,0))
 
         # Updates Screen & Sets Framerate
         pygame.display.update()
@@ -333,9 +337,9 @@ def game_intro():
         # For loop is for any EVENTS
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                # Autosaves on quit
-                with open('mysavedata.txt', 'w') as savefile:
+                with open('savenfo.txt', 'w') as savefile:
                     json.dump(savedata, savefile)
+                # Autosaves on quit)
                 quit_game()
 
             if event.type == pygame.KEYDOWN:
@@ -357,8 +361,10 @@ def game_intro():
                             pygame.time.delay(1250)
 
 
-                        elif 'quit' in usertext_input:
+                        elif 'quit' in usertext_input or 'exit' in usertext_input:
                             screen.blit(mediumstitchText.render('Goodbye',True, flashcolors[1]),(outputmargins))
+                            with open('savenfo.txt', 'w') as savefile:
+                                json.dump(savedata, savefile)
                             pygame.display.update() 
                             pygame.time.delay(1000)
                             quit_game()
@@ -459,6 +465,7 @@ def game_intro():
         screen.blit(titletext, (inputbox.x + 110, inputbox.y + 5))
         screen.blit(default_cmdline, (inputbox.x + 5, inputbox.y + 105))
         screen.blit(usertext_surface, (inputmargins))
+        screen.blit(overlay, (0,0))
 
 
         # Updates Screen & Sets Framerate
