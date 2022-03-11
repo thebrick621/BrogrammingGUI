@@ -30,6 +30,8 @@ pygame.font.init()
 display_height = 1280
 display_width = 720
 
+x,y = 0,0
+
 # Generic Variables Establishment
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((display_height, display_width))
@@ -124,6 +126,15 @@ except:
     print('No file yet')
 
 
+def reversefade(width, height):
+    fade = pygame.Surface((width, height))
+    fade.fill((0,0,0))
+    for x in range(0,300):
+        fade.set_alpha(x)
+        screen.blit(fade, (0,0))
+        pygame.display.update()
+        pygame.time.delay(5)
+
 # Intro For Game
 def game_intro():
     intro = True
@@ -147,6 +158,8 @@ def game_intro():
         clock.tick(60)       
 
 
+
+
 # Main Game loop
 def game_loop():
     player_xloc = (35)
@@ -157,8 +170,9 @@ def game_loop():
     box_selected = False # Bool to tell if usr input box is active
     flashcount = 0
     flashcolors = [black,light_green]
-
+    
     while running:
+       
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
@@ -222,6 +236,10 @@ def game_loop():
         pygame.draw.rect(screen,white,textborder,2)
         # Blits our text into our TextBorder, +5 makes it look pretty
         screen.blit(usertext_surface, (textborder.x + 5, textborder.y + 5))
+
+        testscrolltext = largeText.render('HEYO PIER YOU GON COME OUT HERE?', True, white)
+        
+
 
         # Updates Screen & Sets Framerate
         pygame.display.update()

@@ -13,12 +13,21 @@ display_width = 720
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((display_height, display_width))
 
-
-def fontimport(ttf, size):
-    pygame.font.Font(ttf, size)
-
-
 # Font & Text vars
+
+class Font():
+
+    def __init__(self, font, size):
+        self.font = font
+        self.size = size
+
+    def renderFont(self):
+        smallText = pygame.font.SysFont(self.font, self.size) # Font & size def.
+        mediumText = pygame.font.SysFont(self.font, self.size) # Font & size def.
+        largeText = pygame.font.SysFont(self.font, self.size)
+        hugeText = pygame.font.Font(self.font, self.size)
+
+
 smallText = pygame.font.SysFont('Roboto.ttf', 20) # Font & size def.
 mediumText = pygame.font.SysFont('Roboto.ttf', 35) # Font & size def.
 largeText = pygame.font.SysFont('Roboto.ttf', 50)
@@ -137,7 +146,6 @@ def scene_open():
     loop = True
     usertext_input = ''
     inputbox = pygame.Rect(750,400, 500,300) #POS of input box
-    box_selected = False
     inputmargins = (inputbox.x + 5, inputbox.y + 150)
     outputmargins = (inputbox.x + 5, inputbox.y + 210)
     global flashcount
@@ -152,8 +160,6 @@ def scene_open():
 
             if event.type == pygame.KEYDOWN:
 
-                if box_selected == True:
-
                     if event.key == pygame.K_BACKSPACE:
                         # Converts all input txt to lowercase for easier command struc
                         usertext_input = usertext_input[:-1]
@@ -162,27 +168,6 @@ def scene_open():
                     elif event.key == pygame.K_RETURN:
                         usertext_input = usertext_input.lower()
 
-                        if 'null' in usertext_input:
-                            print('Whomegalul')
-
-
-
-
-                    elif len(usertext_input) == 19:
-                        usertext_input = usertext_input[:-1]
-                    # Writes on the screen
-                    else:
-                        usertext_input += event.unicode                            
-
-            # Allows us to select & Deselect text box; maybe can make this a function?
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if inputbox.collidepoint(event.pos):
-                    box_selected = True
-                else:
-                    box_selected = False
-
-        # Dispalys Background pic
-        screen.blit(bedroom_back, (0,0))
 
 def loadsave():
     print('null')
@@ -360,10 +345,10 @@ def start_game():
         flashcount += 1
         
         # Blits the main input box and usr text
-        helptext = fontimport('StitchWarrior.ttf', 35).render('Type Help For Commands', True, flashcolors[(flashcount%2)])
-        usertext_surface = fontimport('StitchWarrior.ttf', 50).render(usertext_input,True,flashcolors[(flashcount%2)])
-        titletext = fontimport('StitchWarrior.ttf', 75).render('Start Game',True,flashcolors2[(flashcount%2)])
-        default_cmdline = fontimport('StitchWarrior.ttf', 35).render('What would you like to do?',True,flashcolors2[(flashcount%2)])
+        helptext = mediumstitchText.render('Type Help For Commands', True, flashcolors[(flashcount%2)])
+        usertext_surface = largestitchText.render(usertext_input,True,flashcolors[(flashcount%2)])
+        titletext = hugestitchText.render('Start Game',True,flashcolors2[(flashcount%2)])
+        default_cmdline = mediumstitchText.render('What would you like to do?',True,flashcolors2[(flashcount%2)])
         pygame.draw.rect(screen,black,inputbox)
         screen.blit(helptext, (inputbox.x + 110, inputbox.y + 350))
         screen.blit(titletext, (inputbox.x + 110, inputbox.y + 5))
@@ -510,7 +495,8 @@ def game_intro():
         flashcount += 1
         
         # Blits the main input box and usr text
-        helptext = mediumstitchText.render('Type Help For Commands', True, flashcolors[(flashcount%2)])
+        f1 = Font('StitchWarrior.ttf',35)
+        helptext = f1.renderFont.mediumText.render('Type Help For Commands', True, flashcolors[(flashcount%2)])
         usertext_surface = largestitchText.render(usertext_input,True,flashcolors[(flashcount%2)])
         titletext = hugestitchText.render('Brogramming',True,flashcolors2[(flashcount%2)])
         default_cmdline = mediumstitchText.render('What would you like to do?',True,flashcolors2[(flashcount%2)])
